@@ -1,0 +1,208 @@
+﻿@model IEnumerable<Prueba_1.Models.Clientes>
+
+@{
+    // Título que aparecerá en la pestaña del navegador
+    ViewData["Title"] = "Gestión de Clientes";
+}
+
+<!-- Contenedor principal de la página de gestión de clientes -->
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <!-- Tarjeta principal que contiene toda la funcionalidad -->
+            <div class="card shadow">
+                <!-- Encabezado de la tarjeta con título y icono -->
+                <div class="card-header bg-primary text-white">
+                    <h1 class="mb-0">
+                        Gestión de Clientes
+                    </h1>
+                </div>
+                
+                <!-- Cuerpo de la tarjeta con el contenido principal -->
+                <div class="card-body">
+                    <!-- Barra de herramientas con botones de acción -->
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <!-- Botón para crear un nuevo cliente -->
+                        <a asp-action="Create" class="btn btn-success btn-lg">
+                            Crear Nuevo Cliente
+                        </a>
+                        <!-- Botón para exportar datos en formato XML -->
+                        <a asp-action="ExportarXml" class="btn btn-info btn-lg">
+                            Exportar XML
+                        </a>
+                        <!-- Botón para exportar datos en formato JSON -->
+                        <a asp-action="ExportarJson" class="btn btn-warning btn-lg">
+                            Exportar JSON
+                        </a>
+                    </div>
+                    
+                    <!-- Tabla responsiva que muestra la lista de clientes -->
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <!-- Encabezados de la tabla con iconos descriptivos -->
+                            <thead class="table-dark">
+                                <tr>
+                                    <!-- Columna para el nombre del cliente -->
+                                    <th>
+                                        Nombre
+                                    </th>
+                                    <!-- Columna para el primer apellido -->
+                                    <th>
+                                        Primer Apellido
+                                    </th>
+                                    <!-- Columna para el segundo apellido -->
+                                    <th>
+                                        Segundo Apellido
+                                    </th>
+                                    <!-- Columna para el número de cédula -->
+                                    <th>
+                                        Cédula
+                                    </th>
+                                    <!-- Columna para las acciones disponibles -->
+                                    <th class="text-center">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            
+                            <!-- Cuerpo de la tabla con los datos de los clientes -->
+                            <tbody>
+                                <!-- Bucle que recorre cada cliente en la lista -->
+                                @foreach (var item in Model) {
+                                    <tr>
+                                        <!-- Celda con el nombre del cliente -->
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.nombre)
+                                        </td>
+                                        <!-- Celda con el primer apellido -->
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.apellido)
+                                        </td>
+                                        <!-- Celda con el segundo apellido -->
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.apellido2)
+                                        </td>
+                                        <!-- Celda con el número de cédula -->
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.cedula)
+                                        </td>
+                                        <!-- Celda con los botones de acción para cada cliente -->
+                                        <td class="text-center">
+                                            <!-- Grupo de botones para las acciones -->
+                                            <div class="btn-group" role="group">
+                                                <!-- Botón para editar el cliente -->
+                                                <a asp-action="Edit" asp-route-id="@item.pkclientes" class="btn btn-primary btn-sm me-1" title="Editar">
+                                                    Editar
+                                                </a>
+                                                <!-- Botón para ver los detalles del cliente -->
+                                                <a asp-action="Details" asp-route-id="@item.pkclientes" class="btn btn-info btn-sm me-1" title="Ver Detalles">
+                                                    Detalles
+                                                </a>
+                                                <!-- Botón para eliminar el cliente -->
+                                                <a asp-action="Delete" asp-route-id="@item.pkclientes" class="btn btn-danger btn-sm" title="Eliminar">
+                                                    Eliminar
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Mensaje que se muestra cuando no hay clientes registrados -->
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center py-5">
+                            <!-- Título del mensaje -->
+                            <h4 class="text-muted">No hay clientes registrados</h4>
+                            <!-- Descripción explicativa -->
+                            <p class="text-muted">Haz clic en "Crear Nuevo Cliente" para agregar el primer cliente.</p>
+                            <!-- Botón para crear el primer cliente -->
+                            <a asp-action="Create" class="btn btn-success btn-lg">
+                                Crear Primer Cliente
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados para esta página -->
+<style>
+    /* Estilo para las tarjetas contenedoras */
+    .card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilo para los encabezados de las tarjetas */
+    .card-header {
+        background: #6c757d;
+        color: white;
+        border-radius: 4px 4px 0 0 !important;
+        border-bottom: 2px solid #495057;
+        font-weight: bold;
+    }
+    
+    /* Estilo para las tablas de datos */
+    .table {
+        background: white;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        border: 2px solid #dee2e6;
+    }
+    
+    /* Estilo para los encabezados de tabla */
+    .table thead th {
+        background: #495057;
+        color: white;
+        border: 1px solid #6c757d;
+        font-weight: bold;
+    }
+    
+    /* Efecto al pasar el mouse sobre las filas de la tabla */
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+    
+    /* Estilo para los botones de acción */
+    .btn {
+        border-radius: 4px;
+        font-weight: normal;
+        border: 2px solid #6c757d;
+    }
+    
+    /* Efecto al pasar el mouse sobre los botones */
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    /* Estilo para botones pequeños */
+    .btn-sm {
+        border-radius: 3px;
+        padding: 4px 8px;
+        font-size: 0.875rem;
+    }
+    
+    /* Espaciado entre elementos en la barra de herramientas */
+    .gap-3 {
+        gap: 1rem !important;
+    }
+    
+    /* Color para texto secundario */
+    .text-muted {
+        color: #6c757d !important;
+    }
+    
+    /* Tamaño para iconos grandes */
+    .fa-3x {
+        font-size: 3em;
+    }
+</style>

@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Configuración básica del documento HTML -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Título dinámico de la página que cambia según la vista -->
+    <title>@ViewData["Title"] - Prueba_1</title>
+    
+    <!-- Enlaces a hojas de estilo externas -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    
+    <!-- Estilos personalizados para todo el proyecto -->
+    <style>
+        /* Estilo base del cuerpo de la página */
+        body {
+            background: #f8f9fa; /* Fondo gris claro sólido */
+            min-height: 100vh; /* Altura mínima de toda la ventana */
+            font-family: Arial, sans-serif; /* Fuente básica y legible */
+        }
+        
+        /* Barra de navegación superior */
+        .navbar {
+            background: #495057 !important; /* Color gris sólido */
+            border-bottom: 2px solid #343a40; /* Borde inferior más grueso */
+        }
+        
+        /* Enlaces de la barra de navegación */
+        .navbar-brand, .nav-link {
+            color: white !important; /* Texto blanco para contraste */
+        }
+        
+        /* Efecto al pasar el mouse sobre los enlaces */
+        .nav-link:hover {
+            color: #dee2e6 !important; /* Color más claro al hacer hover */
+            background-color: #6c757d; /* Fondo gris al hacer hover */
+        }
+        
+        /* Tarjetas contenedoras de contenido */
+        .card {
+            background: white; /* Fondo blanco */
+            border: 2px solid #dee2e6; /* Borde gris más grueso */
+            border-radius: 4px; /* Esquinas menos redondeadas */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra sutil */
+        }
+        
+        /* Encabezados de las tarjetas */
+        .card-header {
+            background: #6c757d; /* Color gris sólido */
+            color: white; /* Texto blanco */
+            border-radius: 4px 4px 0 0 !important; /* Esquinas superiores redondeadas */
+            border-bottom: 2px solid #495057; /* Borde inferior */
+            font-weight: bold; /* Texto en negrita */
+        }
+        
+        /* Botones de acción */
+        .btn {
+            border-radius: 4px; /* Esquinas menos redondeadas */
+            font-weight: normal; /* Peso de fuente normal */
+            border: 2px solid #6c757d; /* Borde más grueso */
+        }
+        
+        /* Efecto al pasar el mouse sobre botones */
+        .btn:hover {
+            transform: none; /* Sin transformaciones */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Sombra sutil */
+        }
+        
+        /* Tablas de datos */
+        .table {
+            background: white; /* Fondo blanco */
+            border-radius: 4px; /* Esquinas redondeadas */
+            overflow: hidden; /* Contenido que se desborda se oculta */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Sombra sutil */
+            border: 2px solid #dee2e6; /* Borde gris */
+        }
+        
+        /* Encabezados de tabla */
+        .table thead th {
+            background: #495057; /* Color gris oscuro */
+            color: white; /* Texto blanco */
+            border: 1px solid #6c757d; /* Borde entre columnas */
+            font-weight: bold; /* Texto en negrita */
+        }
+        
+        /* Efecto al pasar el mouse sobre filas de tabla */
+        .table tbody tr:hover {
+            background-color: #e9ecef; /* Fondo gris claro al hacer hover */
+        }
+        
+        /* Pie de página fijo en la parte inferior */
+        .footer {
+            background: #495057; /* Color gris sólido */
+            color: white; /* Texto blanco */
+            margin-top: 2rem; /* Espacio superior */
+            border-top: 2px solid #343a40; /* Borde superior */
+        }
+        
+        /* Enlaces del pie de página */
+        .footer a {
+            color: #adb5bd; /* Color gris claro para enlaces */
+        }
+        
+        /* Campos de formulario */
+        .form-control {
+            border: 2px solid #ced4da; /* Borde gris */
+            border-radius: 4px; /* Esquinas redondeadas */
+        }
+        
+        /* Efecto al enfocar campos de formulario */
+        .form-control:focus {
+            border-color: #6c757d; /* Color del borde al enfocar */
+            box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.25); /* Sombra al enfocar */
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado de la página con barra de navegación -->
+    <header>
+        <!-- Barra de navegación responsiva -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+            <div class="container-fluid">
+                <!-- Logo/nombre del sitio que lleva a la página principal -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    Grupo 3
+                </a>
+                
+                <!-- Botón hamburguesa para dispositivos móviles -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Menú de navegación principal -->
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <!-- Enlace a la página de inicio -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                Inicio
+                            </a>
+                        </li>
+                        <!-- Enlace a la sección de carga de datos -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Prueba">
+                                Datos
+                            </a>
+                        </li>
+                        <!-- Enlace a la calculadora -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Calculadora">
+                                Calculadora
+                            </a>
+                        </li>
+                        <!-- Enlace a la gestión de clientes -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Clientes" asp-action="Index">
+                                Clientes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Contenedor principal del contenido -->
+    <div class="container mt-4">
+        <!-- Área principal donde se renderiza el contenido de cada página -->
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Pie de página fijo en la parte inferior de la pantalla -->
+    <footer class="footer text-muted" style="position: fixed; left: 0; bottom: 0; width: 100%; z-index: 100;">
+        <div class="container">
+            <div class="row">
+                <!-- Información de copyright y enlace a inicio -->
+                <div class="col-md-6">
+                    &copy; 2025 - Grupo 3 - <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                </div>
+                <!-- Información de tecnología utilizada -->
+                <div class="col-md-6 text-end">
+                    Desarrollado con ASP.NET Core
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts de JavaScript necesarios para la funcionalidad -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Librería para alertas más atractivas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Sección para scripts específicos de cada página -->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

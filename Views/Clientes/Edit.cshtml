@@ -1,0 +1,164 @@
+﻿@model Prueba_1.Models.Clientes
+
+@{
+    // Título que aparecerá en la pestaña del navegador
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<!-- Contenedor principal del formulario de edición -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Tarjeta que contiene el formulario de edición -->
+            <div class="card shadow">
+                <!-- Encabezado de la tarjeta con título y icono -->
+                <div class="card-header bg-primary text-white">
+                    <h1 class="mb-0">
+                        Editar Cliente
+                    </h1>
+                </div>
+                
+                <!-- Cuerpo de la tarjeta con el formulario -->
+                <div class="card-body">
+                    <!-- Formulario para editar el cliente existente -->
+                    <form asp-action="Edit">
+                        <!-- Resumen de errores de validación del modelo -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <!-- Campo oculto que contiene el ID del cliente para la edición -->
+                        <input type="hidden" asp-for="pkclientes" />
+                        
+                        <!-- Primera fila del formulario -->
+                        <div class="row">
+                            <!-- Campo para editar el nombre del cliente -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="nombre" class="control-label fw-bold">
+                                        Nombre
+                                    </label>
+                                    <input asp-for="nombre" class="form-control" />
+                                    <!-- Mensaje de error de validación para el nombre -->
+                                    <span asp-validation-for="nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!-- Campo para editar el primer apellido -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="apellido" class="control-label fw-bold">
+                                        Primer Apellido
+                                    </label>
+                                    <input asp-for="apellido" class="form-control" />
+                                    <!-- Mensaje de error de validación para el primer apellido -->
+                                    <span asp-validation-for="apellido" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Segunda fila del formulario -->
+                        <div class="row">
+                            <!-- Campo para editar el segundo apellido -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="apellido2" class="control-label fw-bold">
+                                        Segundo Apellido
+                                    </label>
+                                    <input asp-for="apellido2" class="form-control" />
+                                    <!-- Mensaje de error de validación para el segundo apellido -->
+                                    <span asp-validation-for="apellido2" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!-- Campo para editar el número de cédula -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="cedula" class="control-label fw-bold">
+                                        Cédula
+                                    </label>
+                                    <input asp-for="cedula" class="form-control" />
+                                    <!-- Mensaje de error de validación para la cédula -->
+                                    <span asp-validation-for="cedula" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción centrados -->
+                        <div class="form-group text-center mt-4">
+                            <!-- Botón para guardar los cambios del cliente -->
+                            <button type="submit" class="btn btn-success btn-lg me-3">
+                                Guardar Cambios
+                            </button>
+                            <!-- Botón para volver a la lista de clientes -->
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                Volver a Lista
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados para esta página -->
+<style>
+    /* Estilo para las tarjetas contenedoras */
+    .card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilo para los encabezados de las tarjetas */
+    .card-header {
+        background: #6c757d;
+        color: white;
+        border-radius: 4px 4px 0 0 !important;
+        border-bottom: 2px solid #495057;
+        font-weight: bold;
+    }
+    
+    /* Estilo para los campos de entrada del formulario */
+    .form-control {
+        border-radius: 4px;
+        border: 2px solid #ced4da;
+        padding: 8px 10px;
+        transition: all 0.1s ease;
+    }
+    
+    /* Efecto al enfocar los campos de entrada */
+    .form-control:focus {
+        border-color: #6c757d;
+        box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.25);
+    }
+    
+    /* Estilo para los botones de acción */
+    .btn {
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-weight: normal;
+        transition: all 0.1s ease;
+        border: 2px solid #6c757d;
+    }
+    
+    /* Efecto al pasar el mouse sobre los botones */
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    /* Estilo para las etiquetas de los campos */
+    .control-label {
+        color: #495057;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    
+    /* Estilo para los mensajes de error de validación */
+    .text-danger {
+        font-size: 0.875rem;
+        margin-top: 5px;
+    }
+</style>
+
+
+

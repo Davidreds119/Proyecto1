@@ -1,0 +1,310 @@
+﻿@model Prueba_1.Models.Clientes
+
+@{
+    // Título que aparecerá en la pestaña del navegador
+    ViewData["Title"] = "Crear Cliente";
+}
+
+<!-- Librería jQuery necesaria para las funcionalidades AJAX -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
+
+<!-- Contenedor principal del formulario de creación -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Tarjeta que contiene el formulario de creación -->
+            <div class="card shadow">
+                <!-- Encabezado de la tarjeta con título y icono -->
+                <div class="card-header bg-success text-white">
+                    <h1 class="mb-0">
+                        Crear Nuevo Cliente
+                    </h1>
+                </div>
+                
+                <!-- Cuerpo de la tarjeta con el formulario -->
+                <div class="card-body">
+                    <!-- Formulario para crear un nuevo cliente -->
+                    <form asp-action="Create">
+                        <!-- Resumen de errores de validación del modelo -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <!-- Primera fila del formulario -->
+                        <div class="row">
+                            <!-- Campo para el nombre del cliente -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="nombre" class="control-label fw-bold">
+                                        Nombre
+                                    </label>
+                                    <input asp-for="nombre" class="form-control" placeholder="Ingrese el nombre" />
+                                    <!-- Mensaje de error de validación para el nombre -->
+                                    <span asp-validation-for="nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!-- Campo para el primer apellido -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="apellido" class="control-label fw-bold">
+                                        Primer Apellido
+                                    </label>
+                                    <input asp-for="apellido" class="form-control" placeholder="Ingrese el primer apellido" />
+                                    <!-- Mensaje de error de validación para el primer apellido -->
+                                    <span asp-validation-for="apellido" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Segunda fila del formulario -->
+                        <div class="row">
+                            <!-- Campo para el segundo apellido -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="apellido2" class="control-label fw-bold">
+                                        Segundo Apellido
+                                    </label>
+                                    <input asp-for="apellido2" class="form-control" placeholder="Ingrese el segundo apellido" />
+                                    <!-- Mensaje de error de validación para el segundo apellido -->
+                                    <span asp-validation-for="apellido2" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <!-- Campo para el número de cédula -->
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label asp-for="cedula" class="control-label fw-bold">
+                                        Cédula
+                                    </label>
+                                    <input asp-for="cedula" class="form-control" placeholder="Ingrese la cédula" />
+                                    <!-- Mensaje de error de validación para la cédula -->
+                                    <span asp-validation-for="cedula" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones de acción centrados -->
+                        <div class="text-center mt-4">
+                            <!-- Botón para guardar el cliente usando AJAX -->
+                            <button type="button" class="btn btn-success btn-lg me-3" id="guardarajax">
+                                Guardar Cliente
+                            </button>
+                            <!-- Botón para volver a la lista de clientes -->
+                            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                                Volver a Lista
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados para esta página -->
+<style>
+    /* Estilo para las tarjetas contenedoras */
+    .card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilo para los encabezados de las tarjetas */
+    .card-header {
+        background: #6c757d;
+        color: white;
+        border-radius: 4px 4px 0 0 !important;
+        border-bottom: 2px solid #495057;
+        font-weight: bold;
+    }
+    
+    /* Estilo para los campos de entrada del formulario */
+    .form-control {
+        border-radius: 4px;
+        border: 2px solid #ced4da;
+        padding: 8px 10px;
+        transition: all 0.1s ease;
+    }
+    
+    /* Efecto al enfocar los campos de entrada */
+    .form-control:focus {
+        border-color: #6c757d;
+        box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.25);
+    }
+    
+    /* Estilo para el texto placeholder de los campos */
+    .form-control::placeholder {
+        color: #6c757d;
+        opacity: 0.7;
+    }
+    
+    /* Estilo para los botones de acción */
+    .btn {
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-weight: normal;
+        transition: all 0.1s ease;
+        border: 2px solid #6c757d;
+    }
+    
+    /* Efecto al pasar el mouse sobre los botones */
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    /* Estilo específico para el botón de guardar */
+    .btn-success {
+        background: #28a745;
+        border: 2px solid #1e7e34;
+    }
+    
+    /* Efecto al pasar el mouse sobre el botón de guardar */
+    .btn-success:hover {
+        background: #218838;
+    }
+    
+    /* Estilo para las etiquetas de los campos */
+    .control-label {
+        color: #495057;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    
+    /* Estilo para los mensajes de error de validación */
+    .text-danger {
+        font-size: 0.875rem;
+        margin-top: 5px;
+    }
+    
+    /* Estilo para las alertas de notificación */
+    .alert {
+        border-radius: 4px;
+        border: 2px solid #dee2e6;
+    }
+</style>
+
+<!-- Script de JavaScript para la funcionalidad AJAX -->
+<script type="text/javascript">
+    // Función que se ejecuta cuando el documento está listo
+    $(document).ready(function () {
+        // Variable para prevenir múltiples envíos
+        let enviando = false;
+        
+        // Configurar el evento de clic para el botón de guardar
+        $('#guardarajax').click(function () {
+            // Prevenir múltiples envíos simultáneos
+            if (enviando) {
+                return;
+            }
+            
+            enviando = true;
+            // Obtener y limpiar los valores de los campos del formulario
+            const nombre = $('#nombre').val().trim();
+            const apellido = $('#apellido').val().trim();
+            const apellido2 = $('#apellido2').val().trim();
+            const cedula = $('#cedula').val().trim();
+            
+            // Validación: verificar que todos los campos estén completos
+            if (!nombre || !apellido || !apellido2 || !cedula) {
+                mostrarAlerta('Todos los campos son obligatorios', 'warning');
+                enviando = false;
+                return;
+            }
+            
+            // Validación: verificar que la cédula tenga al menos 5 caracteres
+            if (cedula.length < 5) {
+                mostrarAlerta('La cédula debe tener al menos 5 caracteres', 'warning');
+                enviando = false;
+                return;
+            }
+            
+            // Mostrar indicador de carga en el botón
+            const btnGuardar = $('#guardarajax');
+            const originalText = btnGuardar.html();
+            btnGuardar.html('<i class="fas fa-spinner fa-spin me-2"></i>Guardando...');
+            btnGuardar.prop('disabled', true);
+            
+            // Crear objeto con los datos del cliente
+            var cliente = {
+                nombre: nombre,
+                apellido: apellido,
+                apellido2: apellido2,
+                cedula: cedula
+            };
+            
+            // Realizar petición AJAX para guardar el cliente
+            $.ajax({
+                url: '/Clientes/CreateAJAX',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(cliente),
+                success: function (response) {
+                    // Si la respuesta es exitosa
+                    if (response === 'Exito') {
+                        mostrarAlerta('Cliente guardado exitosamente', 'success');
+                        // Redirigir a la lista de clientes después de 1.5 segundos
+                        setTimeout(() => {
+                            window.location.href = '/Clientes/Index';
+                        }, 1500);
+                    } else {
+                        // Si hay un error en la respuesta
+                        mostrarAlerta('Error al guardar el cliente', 'danger');
+                    }
+                },
+                error: function () {
+                    // Si hay un error de comunicación con el servidor
+                    mostrarAlerta('Error en la comunicación con el servidor', 'danger');
+                },
+                complete: function() {
+                    // Restaurar el botón a su estado original
+                    btnGuardar.html(originalText);
+                    btnGuardar.prop('disabled', false);
+                    enviando = false;
+                }
+            });
+        });
+    });
+    
+    // Función para mostrar alertas de notificación usando SweetAlert2
+    function mostrarAlerta(mensaje, tipo) {
+        // Prevenir múltiples llamadas simultáneas
+        if (window.alertaMostrandose) {
+            return;
+        }
+        
+        window.alertaMostrandose = true;
+        
+        // Configurar el icono según el tipo de alerta
+        let icono = 'info';
+        switch(tipo) {
+            case 'success':
+                icono = 'success';
+                break;
+            case 'danger':
+                icono = 'error';
+                break;
+            case 'warning':
+                icono = 'warning';
+                break;
+            default:
+                icono = 'info';
+        }
+        
+        // Mostrar alerta usando SweetAlert2
+        Swal.fire({
+            title: mensaje,
+            icon: icono,
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            allowOutsideClick: true
+        }).then(() => {
+            window.alertaMostrandose = false;
+        });
+    }
+</script>
+
+
+
+
+

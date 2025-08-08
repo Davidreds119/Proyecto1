@@ -1,0 +1,388 @@
+@{
+    ViewData["Title"] = "Calculadora con Historial";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" type="text/javascript"></script>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                <!-- Calculadora -->
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4 class="mb-0">
+                                <i class="fas fa-calculator me-2"></i>Calculadora
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" id="calc-display" class="form-control mb-3 text-end" readonly placeholder="0" />
+                            <div class="row g-2">
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="7">7</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="8">8</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="9">9</button></div>
+                                <div class="col-3"><button class="btn btn-danger w-100 calc-btn" data-value="/">/</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="4">4</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="5">5</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="6">6</button></div>
+                                <div class="col-3"><button class="btn btn-primary w-100 calc-btn" data-value="*">*</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="1">1</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="2">2</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="3">3</button></div>
+                                <div class="col-3"><button class="btn btn-info w-100 calc-btn" data-value="-">-</button></div>
+                                <div class="col-3"><button class="btn btn-secondary w-100 calc-btn" data-value="0">0</button></div>
+                                <div class="col-3"><button class="btn btn-danger w-100" id="calc-clear">C</button></div>
+                                <div class="col-3"><button class="btn btn-success w-100" id="calc-equals">=</button></div>
+                                <div class="col-3"><button class="btn btn-warning w-100 calc-btn" data-value="+">+</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Historial -->
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-history me-2"></i>Historial
+                                </h5>
+                                <button class="btn btn-outline-light btn-sm" id="limpiarHistorial" title="Limpiar historial">
+                                    <i class="fas fa-trash me-1"></i>Borrar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="historial-container" style="max-height: 300px; overflow-y: auto;">
+                                <div id="historial-lista">
+                                    <!-- El historial se cargará aquí dinámicamente -->
+                                </div>
+                            </div>
+                            <div id="historial-vacio" class="text-center text-muted py-3" style="display: none;">
+                                <i class="fas fa-history fa-2x mb-2"></i>
+                                <p class="mb-0">No hay operaciones en el historial</p>
+                                <small>Realiza cálculos para ver el historial</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+        background: #6c757d;
+        color: white;
+        border-radius: 4px 4px 0 0 !important;
+        border-bottom: 2px solid #495057;
+        font-weight: bold;
+    }
+    
+    .btn {
+        border-radius: 4px;
+        font-weight: normal;
+        border: 2px solid #6c757d;
+    }
+    
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .historial-item {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 8px;
+        margin-bottom: 6px;
+        border-left: 3px solid #6c757d;
+        cursor: pointer;
+        transition: all 0.1s ease;
+    }
+    
+    .historial-item:hover {
+        background: #e9ecef;
+        transform: none;
+    }
+    
+    .historial-operacion {
+        font-weight: bold;
+        color: #495057;
+        margin-bottom: 3px;
+    }
+    
+    .historial-resultado {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+    
+    .historial-timestamp {
+        font-size: 0.75rem;
+        color: #adb5bd;
+        text-align: right;
+    }
+    
+    #calc-display {
+        font-size: 1.25rem;
+        font-weight: normal;
+        background: #f8f9fa;
+        border: 2px solid #ced4da;
+        border-radius: 4px;
+    }
+    
+    #calc-display:focus {
+        border-color: #6c757d;
+        box-shadow: 0 0 0 0.1rem rgba(108, 117, 125, 0.25);
+    }
+    
+    .btn-secondary {
+        background: #6c757d;
+        border: 2px solid #5a6268;
+    }
+    
+    .btn-info {
+        background: #17a2b8;
+        border: 2px solid #138496;
+    }
+    
+    .btn-success {
+        background: #28a745;
+        border: 2px solid #1e7e34;
+    }
+    
+    .btn-danger {
+        background: #dc3545;
+        border: 2px solid #c82333;
+    }
+    
+    .btn-warning {
+        background: #ffc107;
+        border: 2px solid #e0a800;
+        color: #212529;
+    }
+    
+    .btn-primary {
+        background: #007bff;
+        border: 2px solid #0056b3;
+    }
+</style>
+
+<script type="text/javascript">
+    let calcInput = '';
+    let historial = [];
+    
+    $(document).ready(function () {
+        cargarHistorial();
+        
+        $('.calc-btn').click(function () {
+            calcInput += $(this).data('value');
+            $('#calc-display').val(calcInput);
+        });
+        
+        $('#calc-clear').click(function () {
+            calcInput = '';
+            $('#calc-display').val('');
+        });
+        
+        $('#calc-equals').click(function () {
+            if (!calcInput.trim()) return;
+            
+            try {
+                // Detectar división entre cero
+                if (/\/0(?![0-9])/.test(calcInput.replace(/\s+/g, ''))) {
+                    mostrarError('Error: División entre cero no permitida');
+                    return;
+                }
+                
+                let result = eval(calcInput);
+                result = result - 10;
+                
+                // Agregar al historial
+                agregarAlHistorial(calcInput, result);
+                
+                $('#calc-display').val(result);
+                calcInput = '';
+            } catch (error) {
+                mostrarError('Error en la operación');
+            }
+        });
+        
+        $('#limpiarHistorial').click(function() {
+            mostrarConfirmacion('¿Estás seguro de que quieres limpiar todo el historial?', function() {
+                historial = [];
+                guardarHistorial();
+                actualizarHistorial();
+            });
+        });
+    });
+    
+    function agregarAlHistorial(operacion, resultado) {
+        const item = {
+            operacion: operacion,
+            resultado: resultado,
+            timestamp: new Date().toLocaleString()
+        };
+        
+        historial.unshift(item); // Agregar al inicio
+        
+        // Mantener solo los últimos 20 elementos
+        if (historial.length > 20) {
+            historial = historial.slice(0, 20);
+        }
+        
+        guardarHistorial();
+        actualizarHistorial();
+    }
+    
+    function guardarHistorial() {
+        localStorage.setItem('calculadoraHistorial', JSON.stringify(historial));
+    }
+    
+    function cargarHistorial() {
+        const guardado = localStorage.getItem('calculadoraHistorial');
+        if (guardado) {
+            historial = JSON.parse(guardado);
+            actualizarHistorial();
+        }
+    }
+    
+    function actualizarHistorial() {
+        const container = $('#historial-lista');
+        const vacio = $('#historial-vacio');
+        
+        if (historial.length === 0) {
+            container.hide();
+            vacio.show();
+            return;
+        }
+        
+        container.show();
+        vacio.hide();
+        
+        container.empty();
+        
+        historial.forEach((item, index) => {
+            const historialItem = $(`
+                <div class="historial-item" data-index="${index}">
+                    <div class="historial-operacion">${item.operacion} = ${item.resultado}</div>
+                    <div class="historial-timestamp">${item.timestamp}</div>
+                </div>
+            `);
+            
+            historialItem.click(function() {
+                // Cargar la operación en la calculadora
+                calcInput = item.operacion;
+                $('#calc-display').val(calcInput);
+            });
+            
+            container.append(historialItem);
+        });
+    }
+    
+    function mostrarError(mensaje) {
+        $('#calc-display').val('Error');
+        calcInput = '';
+        
+        // Mostrar alerta temporal
+        const alerta = $(`
+            <div class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;">
+                <i class="fas fa-exclamation-triangle me-2"></i>${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `);
+        
+        $('body').append(alerta);
+        
+        setTimeout(() => {
+            alerta.fadeOut();
+        }, 3000);
+    }
+    
+    function mostrarConfirmacion(mensaje, callback) {
+        // Crear modal básico
+        const modal = $(`
+            <div id="modalConfirmacion" style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            ">
+                <div style="
+                    background: white;
+                    border: 2px solid #6c757d;
+                    border-radius: 4px;
+                    padding: 20px;
+                    max-width: 400px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                ">
+                    <div style="
+                        background: #6c757d;
+                        color: white;
+                        margin: -20px -20px 20px -20px;
+                        padding: 15px;
+                        border-radius: 4px 4px 0 0;
+                        font-weight: bold;
+                    ">
+                        <i class="fas fa-question-circle me-2"></i>Confirmación
+                    </div>
+                    <p style="margin: 20px 0; font-size: 16px;">${mensaje}</p>
+                    <div style="margin-top: 20px;">
+                        <button id="btnAceptar" style="
+                            background: #007bff;
+                            color: white;
+                            border: 2px solid #0056b3;
+                            border-radius: 4px;
+                            padding: 8px 20px;
+                            margin-right: 10px;
+                            cursor: pointer;
+                            font-weight: normal;
+                        ">Aceptar</button>
+                        <button id="btnCancelar" style="
+                            background: #6c757d;
+                            color: white;
+                            border: 2px solid #495057;
+                            border-radius: 4px;
+                            padding: 8px 20px;
+                            cursor: pointer;
+                            font-weight: normal;
+                        ">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        `);
+        
+        $('body').append(modal);
+        
+        $('#btnAceptar').click(function() {
+            modal.remove();
+            if (callback) callback();
+        });
+        
+        $('#btnCancelar').click(function() {
+            modal.remove();
+        });
+        
+        // Cerrar al hacer clic fuera del modal
+        modal.click(function(e) {
+            if (e.target === this) {
+                modal.remove();
+            }
+        });
+    }
+</script> 

@@ -1,0 +1,156 @@
+﻿@model Prueba_1.Models.Clientes
+
+@{
+    // Título que aparecerá en la pestaña del navegador
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<!-- Contenedor principal de la página de detalles -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Tarjeta que contiene los detalles del cliente -->
+            <div class="card shadow">
+                <!-- Encabezado de la tarjeta con título y icono -->
+                <div class="card-header bg-info text-white">
+                    <h1 class="mb-0">
+                        Detalles del Cliente
+                    </h1>
+                </div>
+                
+                <!-- Cuerpo de la tarjeta con la información del cliente -->
+                <div class="card-body">
+                    <!-- Primera fila de información del cliente -->
+                    <div class="row">
+                        <!-- Detalle del nombre del cliente -->
+                        <div class="col-md-6 mb-3">
+                            <div class="detail-item">
+                                <label class="control-label fw-bold">
+                                    Nombre
+                                </label>
+                                <div class="detail-value">
+                                    @Html.DisplayFor(model => model.nombre)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Detalle del primer apellido del cliente -->
+                        <div class="col-md-6 mb-3">
+                            <div class="detail-item">
+                                <label class="control-label fw-bold">
+                                    Primer Apellido
+                                </label>
+                                <div class="detail-value">
+                                    @Html.DisplayFor(model => model.apellido)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Segunda fila de información del cliente -->
+                    <div class="row">
+                        <!-- Detalle del segundo apellido del cliente -->
+                        <div class="col-md-6 mb-3">
+                            <div class="detail-item">
+                                <label class="control-label fw-bold">
+                                    Segundo Apellido
+                                </label>
+                                <div class="detail-value">
+                                    @Html.DisplayFor(model => model.apellido2)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Detalle del número de cédula del cliente -->
+                        <div class="col-md-6 mb-3">
+                            <div class="detail-item">
+                                <label class="control-label fw-bold">
+                                    Cédula
+                                </label>
+                                <div class="detail-value">
+                                    @Html.DisplayFor(model => model.cedula)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de acción centrados -->
+                    <div class="text-center mt-4">
+                        <!-- Botón para editar el cliente -->
+                        <a asp-action="Edit" asp-route-id="@Model?.pkclientes" class="btn btn-primary btn-lg me-3">
+                            Editar
+                        </a>
+                        <!-- Botón para volver a la lista de clientes -->
+                        <a asp-action="Index" class="btn btn-secondary btn-lg">
+                            Volver a Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estilos personalizados para esta página -->
+<style>
+    /* Estilo para las tarjetas contenedoras */
+    .card {
+        background: white;
+        border: 2px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilo para los encabezados de las tarjetas */
+    .card-header {
+        background: #6c757d;
+        color: white;
+        border-radius: 4px 4px 0 0 !important;
+        border-bottom: 2px solid #495057;
+        font-weight: bold;
+    }
+    
+    /* Estilo para cada elemento de detalle del cliente */
+    .detail-item {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 12px;
+        border-left: 3px solid #6c757d;
+        transition: all 0.1s ease;
+    }
+    
+    /* Efecto al pasar el mouse sobre los elementos de detalle */
+    .detail-item:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* Estilo para las etiquetas de los detalles */
+    .control-label {
+        color: #495057;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    
+    /* Estilo para los valores de los detalles */
+    .detail-value {
+        color: #212529;
+        font-size: 1rem;
+        font-weight: normal;
+        padding: 4px 0;
+    }
+    
+    /* Estilo para los botones de acción */
+    .btn {
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-weight: normal;
+        transition: all 0.1s ease;
+        border: 2px solid #6c757d;
+    }
+    
+    /* Efecto al pasar el mouse sobre los botones */
+    .btn:hover {
+        transform: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+</style>
